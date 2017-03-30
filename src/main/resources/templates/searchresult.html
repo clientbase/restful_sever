@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Weather Report</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+	<body>
+		<p th:text="'The weather in ' + ${location} + ' is ' + ${desc} + '.'" />
+		<p th:text="'Temperature: ' + ${temp} + ' Degrees Celcius.'"  />
+		<p th:text="'Humidity: ' + ${humid} + '%'" />
+		<a href="/weather">Return</a>
+		<form action="/weather/save/">
+		<input type="submit" value="Save"></input>
+		<input type="hidden" name="location" th:value="${location}"></input>
+		</form>
+	</body>
+</html>
