@@ -8,14 +8,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -120,6 +128,24 @@ public class WeatherService {
 	@RequestMapping("weather/searcherror")
 	public String WeaterSearchError(){
 		return "searcherror";
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	    return "redirect:/login?logout";
+	}
+	
+	@Autowired
+	InMemoryUserDetailsManager userService;
+	
+	@RequestMapping("/updatepasssword")
+	public String updatePassword(HttpServletRequest request, HttpServletResponse response){
+		userService.changePassword("password", "pass");
+		return "redirect:/login?logout";
 	}
 	
 }

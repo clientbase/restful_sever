@@ -15,10 +15,15 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Bean
-	public UserDetailsService userDetailsService() {
-		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+	InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+	
+	public WebSecurityConfig(){
 		manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+		manager.createUser(User.withUsername("foo").password("bar").roles("USER").build());
+	}
+	
+	@Bean
+	public InMemoryUserDetailsManager userDetailsService() {
 		return manager;
 	}
 	
@@ -33,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				.and()
 			.logout()
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/")
 				.permitAll();
 	}
 }
