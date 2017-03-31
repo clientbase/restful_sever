@@ -9,6 +9,6 @@
         <input type="text" name="search" value="Toronto"></input>
 		<input type="submit" value="Search"></input>
       </form>
-		<p>Enter the name of a place you would like to know the weather.</p>
+		<p th:text="'Hello, ' + ${user} + '. Enter the name of a place you would like to know the weather.'" />
 	</body>
 </html>

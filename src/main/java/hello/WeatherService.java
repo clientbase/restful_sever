@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,9 +33,13 @@ public class WeatherService {
 	public final String APPID = "63e5b58e8d665a17ea97aa56868ed9c1";
 
 	@RequestMapping(value = "/weather" , method = RequestMethod.GET, produces = "text/html")
-	public String weather(@RequestParam(value="search", required=false) String search){
+	public String weather(@RequestParam(value="search", required=false) String search, Model model){
 		
 		if(search == null){
+			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
+					   .getAuthentication().getPrincipal();
+			   
+			model.addAttribute("user", userDetails.getUsername());
 			return "weather";
 		}else{
 			return "redirect:weather/" + search;
@@ -63,6 +69,23 @@ public class WeatherService {
 		model.addAttribute("humid", (int)report.main.humidity);
 		
 		return "searchresult";
+	}
+	
+	@RequestMapping(value="weather/{location}.json", method=RequestMethod.GET, produces = "application/json")
+	public @ResponseBody String searchXML(@PathVariable String location){
+		
+		String search = WeatherAPI + "?q=" + location + "&APPID=" + APPID;
+		String out = null;
+		
+		try {
+			out = new Scanner(new URL(search).openStream(),"UTF-8").useDelimiter("\\A").next();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "error : resource failed to produce a resonse";
+		}
+		
+		return out;
 	}
 	
 	@RequestMapping("weather/save")
