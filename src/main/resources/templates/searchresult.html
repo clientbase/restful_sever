@@ -5,13 +5,30 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 	<body>
-		<p th:text="'The weather in ' + ${location} + ' is ' + ${desc} + '.'" />
+		<pre>
+		I__
+   .-'"  .  "'-.
+ .'  / . ' . \  '.
+/_.-..-..-..-..-._\ .---------------------------------.
+         #  _,,_   ( I hear it might rain people today )
+         #/`    `\ /'---------------------------------'
+         / / 6 6\ \
+         \/\  Y /\/       /\-/\
+         #/ `'U` \       /a a  \               _
+       , (  \   | \     =\ Y  =/-~~~~~~-,_____/ )
+       |\|\_/#  \_/       '^--'          ______/
+       \/'.  \  /'\         \           /
+        \    /=\  /         ||  |---'\  \
+   jgs  /____)/____)       (_(__|   ((__|
+		</pre>
+		<p th:text="'Description of the weather in ' + ${location} + ' is ' + ${desc} + '.'" />
 		<p th:text="'Temperature: ' + ${temp} + ' Degrees Celcius.'"  />
 		<p th:text="'Humidity: ' + ${humid} + '%'" />
-		<a href="/weather">Return</a>
-		<form action="/weather/save/">
-		<input type="submit" value="Save"></input>
-		<input type="hidden" name="location" th:value="${location}"></input>
+		<form action="/weather">
+			<input type="text" name="search" value=""></input>
+			<input type="submit" value="Search"></input>
 		</form>
+		<a href="/logout">logout</a>
+		<a href="/account">Change your password</a>
 	</body>
 </html>

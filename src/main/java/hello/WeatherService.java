@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -33,6 +34,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import model.WeatherReport;
 
 @Controller
 public class WeatherService {
@@ -64,7 +67,6 @@ public class WeatherService {
 		try {
 			out = new Scanner(new URL(search).openStream(),"UTF-8").useDelimiter("\\A").next();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "redirect:searcherror";
 		}
@@ -79,18 +81,17 @@ public class WeatherService {
 		return "searchresult";
 	}
 	
-	@RequestMapping(value="weather/{location}.json", method=RequestMethod.GET, produces = "application/json")
-	public @ResponseBody String searchXML(@PathVariable String location){
+	@RequestMapping(value="weather/json", method=RequestMethod.GET, produces = "application/json")
+	public @ResponseBody String searchXML(@RequestParam(value="search", required=false) String search){
 		
-		String search = WeatherAPI + "?q=" + location + "&APPID=" + APPID;
+		String searchOpenWeather = WeatherAPI + "?q=" + search + "&APPID=" + APPID;
 		String out = null;
 		
 		try {
-			out = new Scanner(new URL(search).openStream(),"UTF-8").useDelimiter("\\A").next();
+			out = new Scanner(new URL(searchOpenWeather).openStream(),"UTF-8").useDelimiter("\\A").next();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "error : resource failed to produce a resonse";
+			return "ERROR : Resource failed to produce a resonse.";
 		}
 		
 		return out;
@@ -128,24 +129,6 @@ public class WeatherService {
 	@RequestMapping("weather/searcherror")
 	public String WeaterSearchError(){
 		return "searcherror";
-	}
-	
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    if (auth != null){    
-	        new SecurityContextLogoutHandler().logout(request, response, auth);
-	    }
-	    return "redirect:/login?logout";
-	}
-	
-	@Autowired
-	InMemoryUserDetailsManager userService;
-	
-	@RequestMapping("/updatepasssword")
-	public String updatePassword(HttpServletRequest request, HttpServletResponse response){
-		userService.changePassword("password", "pass");
-		return "redirect:/login?logout";
 	}
 	
 }

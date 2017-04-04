@@ -5,10 +5,34 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 	<body>
-      <form action="/weather">
-        <input type="text" name="search" value="Toronto"></input>
-		<input type="submit" value="Search"></input>
-      </form>
+		<pre>
+   _____ ______          _____   _____ _    _ 
+  / ____|  ____|   /\   |  __ \ / ____| |  | |
+ | (___ | |__     /  \  | |__) | |    | |__| |
+  \___ \|  __|   / /\ \ |  _  /| |    |  __  |
+  ____) | |____ / ____ \| | \ \| |____| |  | |
+ |_____/|______/_/    \_\_|  \_\\_____|_|  |_|
+                                              
+                                              
+		</pre>
+		<form action="/weather">
+			<input type="text" name="search" value=""></input>
+			<input type="submit" value="Search"></input>
+		</form>
 		<p th:text="'Hello, ' + ${user} + '. Enter the name of a place you would like to know the weather.'" />
+		<pre>
+    _                 
+   (_)                
+    _ ___  ___  _ __  
+   | / __|/ _ \| '_ \ 
+  _| \__ \ (_) | | | |
+ (_) |___/\___/|_| |_|
+  _/ |                
+ |__/                 
+		</pre>
+	<form action="/weather/json">
+        <input type="text" name="search" value=""></input>
+		<input type="submit" value="Search"></input>
+    </form>
 	</body>
 </html>

@@ -2,9 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
-        <title>Spring Security Example </title>
+        <title>Weather Service Login</title>
     </head>
     <body>
+		<pre>
+  _      ____   _____ _____ _   _ 
+ | |    / __ \ / ____|_   _| \ | |
+ | |   | |  | | |  __  | | |  \| |
+ | |   | |  | | | |_ | | | | . ` |
+ | |___| |__| | |__| |_| |_| |\  |
+ |______\____/ \_____|_____|_| \_|
+		</pre>
         <div th:if="${param.error}">
             Invalid username and password.
         </div>
@@ -15,6 +23,8 @@
             <div><label> User Name : <input type="text" name="username"/> </label></div>
             <div><label> Password: <input type="password" name="password"/> </label></div>
             <div><input type="submit" value="Sign In"/></div>
+            <br/>
+            <a href="/createaccount">Create an account.</a>
         </form>
     </body>
 </html>
